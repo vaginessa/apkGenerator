@@ -1,5 +1,5 @@
 
-package apkGenerator;
+package _apkGenerator;
 
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -12,12 +12,12 @@ public class Principal extends javax.swing.JFrame {
     private String RutaAndroid = null;
     private String RutaProyecto = null;
     
-    private GenerarApk genApk = null;
+    private ApkGenerator genApk = null;
     
     @Override
     public Image getIconImage() {
         Image retValue = Toolkit.getDefaultToolkit().
-                getImage(ClassLoader.getSystemResource("apkGenerator/icon.png"));
+                getImage(ClassLoader.getSystemResource("_apkGenerator/icon.png"));
         return retValue;
     }
    
@@ -28,11 +28,11 @@ public class Principal extends javax.swing.JFrame {
         
         if( os.contains("win") )
         {
-            genApk = new GenerarApk(GenerarApk.OperatingSystem.Windows);
+            genApk = new ApkGenerator(ApkGenerator.OperatingSystem.Windows);
         }
         else if( os.indexOf("nix") >= 0  || os.indexOf("nux") >= 0 || os.indexOf("mac")>=0   )
         {
-            genApk = new GenerarApk(GenerarApk.OperatingSystem.UnixBased);
+            genApk = new ApkGenerator(ApkGenerator.OperatingSystem.UnixBased);
         }
         
         
@@ -431,7 +431,7 @@ public class Principal extends javax.swing.JFrame {
             public void run() {
                 Principal p = new Principal();
                 
-                java.net.URL url = ClassLoader.getSystemResource("apkGenerator/icon.png");
+                java.net.URL url = ClassLoader.getSystemResource("_apkGenerator/icon.png");
                 Toolkit kit = Toolkit.getDefaultToolkit();
                 Image img = kit.createImage(url);
                 p.setIconImage(img);

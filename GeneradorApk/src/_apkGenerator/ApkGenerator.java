@@ -1,4 +1,4 @@
-package apkGenerator;
+package _apkGenerator;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import javax.swing.JOptionPane;
 
-public class GenerarApk {
+public class ApkGenerator {
 
 	public String projectName = null;
 	public String packageName = null;
@@ -21,7 +21,7 @@ public class GenerarApk {
         
         public enum OperatingSystem{ Windows, UnixBased }
         
-        public GenerarApk(OperatingSystem os)
+        public ApkGenerator(OperatingSystem os)
         {
             if( os == OperatingSystem.UnixBased )
             {

@@ -1,4 +1,4 @@
-package apkGenerator;
+package _apkGenerator;
 
 import java.io.*;
 import java.util.ArrayList;
