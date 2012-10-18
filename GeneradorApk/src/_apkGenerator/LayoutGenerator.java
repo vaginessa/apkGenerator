@@ -136,7 +136,12 @@ public class LayoutGenerator
     
     public void generateLayoutLayout()
     {
+        Element layout = document.createElement("LinearLayout");
+        // Find Attributes
         
+        // append all childs to layout, if any
+        
+        root.appendChild(layout);
     }
     
     public void generateLayout(String homePath)
