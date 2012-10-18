@@ -18,6 +18,7 @@ public class ApkGenerator {
         
         public String folderSeparator = null;
         private String extraCommand = "";
+        OperatingSystem OS = null;
         
         public enum OperatingSystem{ Windows, UnixBased }
         
@@ -32,6 +33,7 @@ public class ApkGenerator {
                 folderSeparator = "\\";
                 extraCommand = "cmd /c ";
             }
+            this.OS = os;
         }
 	
 	public void createFolderStructure(String projectPath, String projectName, String packageName)
@@ -76,7 +78,7 @@ public class ApkGenerator {
 	{
             String command = extraCommand + "keytool -genkey -keystore "+ keyPath + folderSeparator +"keystore " +" -alias " + 
                              alias + " -storepass " + storepass + " -keypass " + keypass +
-                             " -dname \"" + dname + "\"";
+                             " -dname " + getEscapedString(dname, OS);
             
             print( executeCommand(command) );
 	}
@@ -125,6 +127,25 @@ public class ApkGenerator {
                               ProjectHome + "\\bin";
             print( executeCommand(command) );
         }
+        
+        public String getEscapedString(String string, OperatingSystem os)
+        {
+            if( os == OperatingSystem.Windows)
+            {
+                return "\"" + string + "\"";
+            }
+            
+            // Else Unix Based
+            String parts[] = string.split(" ");
+            String escapedString = "";
+            for( int index=0 ; index<parts.length; index++)
+            {
+                escapedString += index < (parts.length -1) ? parts[index] + "\\ " :
+                                                             parts[index];
+            }
+            return escapedString;
+        }
+        
         
 	public BufferedReader executeCommand(String command)
 	{
