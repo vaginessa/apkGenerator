@@ -46,7 +46,7 @@ public class LayoutGenerator
                                     boolean visible, boolean enabled)
     {
         Element button = document.createElement("Button");
-        button.setAttribute("android:id", "@íd/"+idName);
+        button.setAttribute("android:id", "@id/"+idName);
         button.setAttribute("android:text", text);
         button.setAttribute("android:layout_width", ""+width+"dp");
         button.setAttribute("android:layout_height", ""+height+"dp");
@@ -59,7 +59,7 @@ public class LayoutGenerator
                                     boolean visible, boolean enabled)
     {
         Element label = document.createElement("TextView");
-        label.setAttribute("android:id", "@íd/"+idName);
+        label.setAttribute("android:id", "@id/"+idName);
         label.setAttribute("android:text", text);
         label.setAttribute("android:layout_width", ""+width+"dp");
         label.setAttribute("android:layout_height", ""+height+"dp");
@@ -72,7 +72,7 @@ public class LayoutGenerator
                                     boolean visible, boolean enabled)
     {
         Element textbox = document.createElement("TextView");
-        textbox.setAttribute("android:id", "@íd/"+idName);
+        textbox.setAttribute("android:id", "@id/"+idName);
         textbox.setAttribute("android:text", text);
         textbox.setAttribute("android:layout_width", ""+width+"dp");
         textbox.setAttribute("android:layout_height", ""+height+"dp");
@@ -85,7 +85,7 @@ public class LayoutGenerator
                                     boolean visible, boolean enabled, boolean checked)
     {
         Element checkBox = document.createElement("CheckBox");
-        checkBox.setAttribute("android:id", "@íd/"+idName);
+        checkBox.setAttribute("android:id", "@id/"+idName);
         checkBox.setAttribute("android:text", text);
         checkBox.setAttribute("android:layout_width", ""+width+"dp");
         checkBox.setAttribute("android:layout_height", ""+height+"dp");
@@ -100,7 +100,7 @@ public class LayoutGenerator
                                     boolean visible, boolean enabled, boolean checked)
     {
         Element radioButton = document.createElement("RadioButton");
-        radioButton.setAttribute("android:id", "@íd/"+idName);
+        radioButton.setAttribute("android:id", "@id/"+idName);
         radioButton.setAttribute("android:text", text);
         radioButton.setAttribute("android:layout_width", ""+width+"dp");
         radioButton.setAttribute("android:layout_height", ""+height+"dp");
@@ -115,7 +115,7 @@ public class LayoutGenerator
                                          boolean visible, boolean enabled)
     {
         Element datePicker = document.createElement("DatePicker");
-        datePicker.setAttribute("android:id", "@íd/"+idName);
+        datePicker.setAttribute("android:id", "@id/"+idName);
         datePicker.setAttribute("android:layout_width", ""+width+"dp");
         datePicker.setAttribute("android:layout_height", ""+height+"dp");
         datePicker.setAttribute("android:visibility", visible?"visible":"invisible");        
