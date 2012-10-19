@@ -75,7 +75,7 @@ public class ManifestGenerator
         return application;
     }
     
-    public void generateManifestFile(String filePath)
+    public void generateManifestFile(String projectPath)
     {
         try
         {
@@ -90,7 +90,7 @@ public class ManifestGenerator
             trans.transform(source, result);
             String xml = sw.toString();
             
-            File file = new File(filePath);
+            File file = new File(projectPath+ApkGenerator.getFolderSeparator()+"AndroidManifest.xml");
             FileOutputStream outputStream = new FileOutputStream(file);
             
             outputStream.write(xml.getBytes());

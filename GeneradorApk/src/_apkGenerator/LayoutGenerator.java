@@ -2,8 +2,7 @@
 package _apkGenerator;
 
 import java.io.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.xml.parsers.*;
 import javax.xml.transform.*;
 import javax.xml.transform.dom.*;
@@ -27,6 +26,7 @@ public class LayoutGenerator
             docBuilder = dbFactory.newDocumentBuilder();
             document = docBuilder.newDocument();   
             correlative = 0;
+            generateLayoutRoot();
         }
         catch(Exception e)
         {
@@ -34,7 +34,7 @@ public class LayoutGenerator
         }
     }
     
-    public void generateLayoutRoot()
+    private void generateLayoutRoot()
     {
         root = document.createElement("AbsoluteLayout");
         root.setAttribute("xmlns:android", "http://schemas.android.com/apk/res/android");
@@ -44,12 +44,15 @@ public class LayoutGenerator
         document.appendChild(root);
     }
     
-    public void generateLayoutButton(String idName, String text, int width, int height,
+    public void generateLayoutButton(String idName, String text, int x, int y, 
+                                    int width, int height,
                                     boolean visible, boolean enabled)
     {
         Element button = document.createElement("Button");
         button.setAttribute("android:id", "@id/"+idName);
         button.setAttribute("android:text", text);
+        button.setAttribute("android:layout_x", x+"dp");
+        button.setAttribute("android:layout_y", y+"dp");
         button.setAttribute("android:layout_width", ""+width+"dp");
         button.setAttribute("android:layout_height", ""+height+"dp");
         button.setAttribute("android:visibility", visible?"visible":"invisible");        
@@ -57,12 +60,14 @@ public class LayoutGenerator
         root.appendChild(button);
     }
     
-    public void generateLayoutLabel(String idName, String text, int width, int height,
+    public void generateLayoutLabel(String idName, String text, int x, int y, int width, int height,
                                     boolean visible, boolean enabled)
     {
         Element label = document.createElement("TextView");
         label.setAttribute("android:id", "@id/"+idName);
         label.setAttribute("android:text", text);
+        label.setAttribute("android:layout_x", x+"dp");
+        label.setAttribute("android:layout_y", y+"dp");
         label.setAttribute("android:layout_width", ""+width+"dp");
         label.setAttribute("android:layout_height", ""+height+"dp");
         label.setAttribute("android:visibility", visible?"visible":"invisible");        
@@ -70,12 +75,14 @@ public class LayoutGenerator
         root.appendChild(label);
     }
     
-    public void generateLayoutTextBox(String idName, String text, int width, int height,
+    public void generateLayoutTextBox(String idName, String text, int x, int y, int width, int height,
                                     boolean visible, boolean enabled)
     {
         Element textbox = document.createElement("TextView");
         textbox.setAttribute("android:id", "@id/"+idName);
         textbox.setAttribute("android:text", text);
+        textbox.setAttribute("android:layout_x", x+"dp");
+        textbox.setAttribute("android:layout_y", y+"dp");
         textbox.setAttribute("android:layout_width", ""+width+"dp");
         textbox.setAttribute("android:layout_height", ""+height+"dp");
         textbox.setAttribute("android:visibility", visible?"visible":"invisible");        
@@ -83,12 +90,14 @@ public class LayoutGenerator
         root.appendChild(textbox);
     }
     
-    public void generateLayoutCheckbox(String idName, String text, int width, int height,
+    public void generateLayoutCheckbox(String idName, String text, int x, int y, int width, int height,
                                     boolean visible, boolean enabled, boolean checked)
     {
         Element checkBox = document.createElement("CheckBox");
         checkBox.setAttribute("android:id", "@id/"+idName);
         checkBox.setAttribute("android:text", text);
+        checkBox.setAttribute("android:layout_x", x+"dp");
+        checkBox.setAttribute("android:layout_y", y+"dp");
         checkBox.setAttribute("android:layout_width", ""+width+"dp");
         checkBox.setAttribute("android:layout_height", ""+height+"dp");
         checkBox.setAttribute("android:visibility", visible?"visible":"invisible");        
@@ -98,12 +107,14 @@ public class LayoutGenerator
         root.appendChild(checkBox);
     }
     
-    public void generateLayoutRadioButton(String idName, String text, int width, int height,
+    public void generateLayoutRadioButton(String idName, String text, int x, int y, int width, int height,
                                     boolean visible, boolean enabled, boolean checked)
     {
         Element radioButton = document.createElement("RadioButton");
         radioButton.setAttribute("android:id", "@id/"+idName);
         radioButton.setAttribute("android:text", text);
+        radioButton.setAttribute("android:layout_x", x+"dp");
+        radioButton.setAttribute("android:layout_y", y+"dp");
         radioButton.setAttribute("android:layout_width", ""+width+"dp");
         radioButton.setAttribute("android:layout_height", ""+height+"dp");
         radioButton.setAttribute("android:visibility", visible?"visible":"invisible");        
@@ -114,10 +125,13 @@ public class LayoutGenerator
     }
     
     public void generateLayoutDatePicker(String idName,int width, int height,
+                                         int x, int y,
                                          boolean visible, boolean enabled)
     {
         Element datePicker = document.createElement("DatePicker");
         datePicker.setAttribute("android:id", "@id/"+idName);
+        datePicker.setAttribute("android:layout_x", x+"dp");
+        datePicker.setAttribute("android:layout_y", y+"dp");
         datePicker.setAttribute("android:layout_width", ""+width+"dp");
         datePicker.setAttribute("android:layout_height", ""+height+"dp");
         datePicker.setAttribute("android:visibility", visible?"visible":"invisible");        
@@ -127,13 +141,15 @@ public class LayoutGenerator
     }
     
     public void generateLayoutPicture(String imagePath, String projectPath,String idName,
-                                      boolean visible, boolean enabled)
+                                      int x, int y, boolean visible, boolean enabled)
     {
         // copy image to folder
         String imageName = copyFile(imagePath, projectPath).split("\\.")[0];
         Element imageView = document.createElement("ImageView");
         imageView.setAttribute("android:src", "@drawable/"+imageName); 
         imageView.setAttribute("android:id", "@id/"+idName);
+        imageView.setAttribute("android:layout_x", x+"dp");
+        imageView.setAttribute("android:layout_y", y+"dp");
         imageView.setAttribute("android:visibility", visible?"visible":"invisible");        
         imageView.setAttribute("android:enabled", enabled?"true":"false");
         
@@ -155,10 +171,11 @@ public class LayoutGenerator
         root.appendChild(layout);
     }
     
-    public void generateLayout(String homePath)
+    public void generateLayout(String projectPath)
     {
         try
         {
+            String folderSep = ApkGenerator.getFolderSeparator();
             TransformerFactory transFac = TransformerFactory.newInstance();
             Transformer trans = transFac.newTransformer();
             trans.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
@@ -169,8 +186,9 @@ public class LayoutGenerator
             DOMSource source = new DOMSource(document);
             trans.transform(source, result);
             String xml = sw.toString();
-            
-            File file = new File(homePath + "test"+(correlative++)+".xml");
+            File file = new File(projectPath + folderSep + "res" +
+                                folderSep + "layout" +folderSep+
+                                ("test"+(correlative)+".xml"));
             FileOutputStream outputStream = new FileOutputStream(file);
             
             outputStream.write(xml.getBytes());

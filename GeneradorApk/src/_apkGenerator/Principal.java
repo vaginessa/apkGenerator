@@ -3,8 +3,11 @@ package _apkGenerator;
 
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.util.ArrayList;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+
+import Semantics.Controls.*;
 
 public class Principal extends javax.swing.JFrame {
 
@@ -42,7 +45,7 @@ public class Principal extends javax.swing.JFrame {
         txtRutaAndroid.setText( RutaAndroid);
         txtRutaJDK.setText(RutaJava);
     }
-
+    
     private String cargarFolder()
     {
         String ruta = null;
@@ -84,6 +87,16 @@ public class Principal extends javax.swing.JFrame {
         }
         
         return ruta;
+    }
+    
+    public ArrayList<Control> getControls()
+    {
+        ArrayList<Control> list = new ArrayList<Control>();
+        list.add(RandomControlGenerator.generateButton());
+        list.add(RandomControlGenerator.generateButton());
+        list.add(RandomControlGenerator.generateLabel());
+        list.add(RandomControlGenerator.generateLabel());
+        return list;
     }
     
     @SuppressWarnings("unchecked")
@@ -414,7 +427,30 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCrearManifestMouseClicked
 
     private void btnCrearLayoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCrearLayoutMouseClicked
-        // TODO add your handling code here:
+
+        LayoutGenerator layoutGenerator = new LayoutGenerator();
+        
+        
+        ArrayList<Control> controls = getControls();
+        for(Control control : controls)
+        {
+            if( control instanceof Button)
+            {
+                Button btn = (Button) control;
+                layoutGenerator.generateLayoutButton(btn.getName(), btn.getValue(), btn.getX(), 
+                                                     btn.getY(),btn.getWidth(), btn.getHeight(), 
+                                                     btn.isVisible(), btn.isEnabled());
+            }
+            else if( control instanceof Label)
+            {
+                Label lbl = (Label) control;
+                layoutGenerator.generateLayoutLabel(lbl.getName(), lbl.getValue(), lbl.getX(), 
+                                                     lbl.getY(), lbl.getWidth(), lbl.getHeight(), 
+                                                     lbl.isVisible(), lbl.isEnabled());
+            }
+        }
+        layoutGenerator.generateLayout(RutaProyecto+ApkGenerator.getFolderSeparator()+
+                                       txtNombreProyecto.getText());
     }//GEN-LAST:event_btnCrearLayoutMouseClicked
    
     public static void main(String args[]) {
