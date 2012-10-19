@@ -36,6 +36,22 @@ public class ApkGenerator {
             this.OS = os;
         }
 	
+        public static String getFolderSeparator()
+        {
+            String os = System.getProperty("os.name").toLowerCase();
+            String foldSep = null;
+        
+            if( os.contains("win") )
+            {
+                foldSep = "\\";
+            }
+            else if( os.indexOf("nix") >= 0  || os.indexOf("nux") >= 0 || os.indexOf("mac")>=0   )
+            {
+                foldSep ="/";
+            }
+            return foldSep;
+        } 
+        
 	public void createFolderStructure(String projectPath, String projectName, String packageName)
 	{
             this.projectName = projectName;

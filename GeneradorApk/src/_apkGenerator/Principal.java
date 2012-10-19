@@ -35,7 +35,6 @@ public class Principal extends javax.swing.JFrame {
             genApk = new ApkGenerator(ApkGenerator.OperatingSystem.UnixBased);
         }
         
-        
         RutaJava = "C:\\Program Files\\Java\\jdk1.6.0_34";
         RutaAndroid = "\"C:\\Program Files (x86)\\Android\\android-sdk\"";
         RutaProyecto = "";
@@ -119,6 +118,7 @@ public class Principal extends javax.swing.JFrame {
         txtAndroidJar = new javax.swing.JTextField();
         btnAndroidJar = new javax.swing.JButton();
         btnCrearManifest = new javax.swing.JButton();
+        btnCrearLayout = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -198,6 +198,13 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
+        btnCrearLayout.setText("Crear Layout");
+        btnCrearLayout.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnCrearLayoutMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -270,8 +277,13 @@ public class Principal extends javax.swing.JFrame {
                         .addComponent(btnAndroidJar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(50, 50, 50))))
             .addGroup(layout.createSequentialGroup()
-                .addGap(52, 52, 52)
-                .addComponent(jLabel9)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(52, 52, 52)
+                        .addComponent(jLabel9))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(35, 35, 35)
+                        .addComponent(btnCrearLayout)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -325,7 +337,9 @@ public class Principal extends javax.swing.JFrame {
                     .addComponent(btnCrearR))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(filler1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(120, Short.MAX_VALUE))
+                .addGap(43, 43, 43)
+                .addComponent(btnCrearLayout)
+                .addContainerGap(54, Short.MAX_VALUE))
         );
 
         pack();
@@ -398,6 +412,10 @@ public class Principal extends javax.swing.JFrame {
 //        ManifestGenerator mGen = new ManifestGenerator();
         
     }//GEN-LAST:event_btnCrearManifestMouseClicked
+
+    private void btnCrearLayoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCrearLayoutMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCrearLayoutMouseClicked
    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -423,9 +441,6 @@ public class Principal extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
-        
-        
         
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -446,6 +461,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton btnCargarRutaJDK;
     private javax.swing.JButton btnCargarRutaProyecto;
     private javax.swing.JButton btnCrearKeystore;
+    private javax.swing.JButton btnCrearLayout;
     private javax.swing.JButton btnCrearManifest;
     private javax.swing.JButton btnCrearR;
     private javax.swing.JButton btnEstructuraProyecto;

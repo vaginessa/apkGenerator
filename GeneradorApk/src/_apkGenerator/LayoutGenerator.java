@@ -2,6 +2,8 @@
 package _apkGenerator;
 
 import java.io.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.xml.parsers.*;
 import javax.xml.transform.*;
 import javax.xml.transform.dom.*;
@@ -34,7 +36,7 @@ public class LayoutGenerator
     
     public void generateLayoutRoot()
     {
-        root = document.createElement("LinearLayout");
+        root = document.createElement("AbsoluteLayout");
         root.setAttribute("xmlns:android", "http://schemas.android.com/apk/res/android");
         root.setAttribute("xmlns:tools", "http://schemas.android.com/tools");
         root.setAttribute("android:layout_width", "match_parent");
@@ -124,8 +126,17 @@ public class LayoutGenerator
         root.appendChild(datePicker);
     }
     
-    public void generateLayoutPicture(String imagePath, String projectPath)
+    public void generateLayoutPicture(String imagePath, String projectPath,String idName,
+                                      boolean visible, boolean enabled)
     {
+        // copy image to folder
+        String imageName = copyFile(imagePath, projectPath).split("\\.")[0];
+        Element imageView = document.createElement("ImageView");
+        imageView.setAttribute("android:src", "@drawable/"+imageName); 
+        imageView.setAttribute("android:id", "@id/"+idName);
+        imageView.setAttribute("android:visibility", visible?"visible":"invisible");        
+        imageView.setAttribute("android:enabled", enabled?"true":"false");
+        
     }
     
     // To Do's
@@ -169,5 +180,39 @@ public class LayoutGenerator
         {
             System.out.println(e.getMessage());
         }
+    }
+    
+    public String copyFile( String imagePath, String projectPath)
+    {
+        // Copy image to res/drawable in projectPath
+        String folderSeparator = ApkGenerator.getFolderSeparator();
+        File originImage = new File(imagePath);
+        
+        String splits[] = imagePath.split(  folderSeparator.equals("/") ? "/" : "\\\\"  );
+        String destinyImageName = splits[splits.length-1];
+        
+        // ProjectPath->res->drawable folder
+        File destinyImage = new File(projectPath + folderSeparator + 
+                                    "res" + folderSeparator + "drawable"+ 
+                                    folderSeparator + destinyImageName);
+        try 
+        {
+            InputStream in = new FileInputStream(originImage);
+            OutputStream out = new FileOutputStream(destinyImage);
+            
+            byte[] buf = new byte[1024];
+            int len;
+            while ((len = in.read(buf)) > 0)
+            {
+                out.write(buf, 0, len);
+            }
+            in.close();
+            out.close();
+        } 
+        catch (Exception ex) 
+        {
+            System.out.println(ex.getMessage());
+        }
+        return destinyImageName;
     }
 }
