@@ -27,7 +27,7 @@ public class RandomControlGenerator
     public static Label generateLabel()
     {
         String name = "lbl";
-        Label lbl = new Label();
+        Label lbl = (Label) getControl(name);
         lbl.setValue(name+correlative);
         return lbl;
     }
@@ -35,11 +35,37 @@ public class RandomControlGenerator
     public static TextBox generateTextBox()
     {
         String name = "txt";
-        TextBox txt = new TextBox();
+        TextBox txt = (TextBox) getControl(name);
         txt.setValue(name+correlative);
         return txt;
     }
     
+    public static CheckBox generateCheckBox()
+    {
+        String name = "chkBox";
+        CheckBox chkBox = (CheckBox) getControl(name);
+        chkBox.setText(name+correlative);
+        //chkBox.setDirection();
+        chkBox.setChecked(rand.nextBoolean());
+        return chkBox;
+    }
+    
+    public static DatePicker generateDatePicker()
+    {
+        String name = "datePicker";
+        DatePicker datePicker = (DatePicker) getControl(name);
+        return datePicker;
+    }
+    
+    public static RadioButton generateRadioButton()
+    {
+        String name = "radioBtn";
+        RadioButton radioBtn = (RadioButton) getControl(name);
+        radioBtn.setChecked(rand.nextBoolean());
+        radioBtn.setText(name+correlative);
+        return radioBtn;
+    }
+        
     private static Control getControl(String name)
     {
         Control control = new Control();
@@ -48,9 +74,9 @@ public class RandomControlGenerator
         control.setName(name+(correlative++));
         control.setWidth(rand.nextInt(controlWidth));
         control.setHeight(rand.nextInt(controlHeight));
-        control.setEnabled(rand.nextInt(2)==0);
+        control.setEnabled(rand.nextBoolean());
         // No need to randomize this attribute
-        // But if you do, copy this line: rand.nextInt(2)==0
+        // But if you do, copy this line: rand.nextBoolean()
         control.setVisible(true);
         return control;
     }

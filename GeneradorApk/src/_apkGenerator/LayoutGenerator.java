@@ -163,7 +163,7 @@ public class LayoutGenerator
     
     public void generateLayoutLayout()
     {
-        Element layout = document.createElement("LinearLayout");
+        Element layout = document.createElement("AbsoluteLayout");
         // Find Attributes
         
         // append all childs to layout, if any
