@@ -63,14 +63,14 @@ public class ManifestGenerator
         {
             application = generateManifestActivity(application, activityName);
         }
+        root.appendChild(application);
     }
     
     public Element generateManifestActivity(Element application, String activityName)
     {       
         // Add intent-filter ??
         Element activity = document.createElement("activity");
-        activity.setAttribute("android:name", "."+activityName);
-        
+        activity.setAttribute("android:name", "."+activityName);      
         application.appendChild(activity);
         return application;
     }

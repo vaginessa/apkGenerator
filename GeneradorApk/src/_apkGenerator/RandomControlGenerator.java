@@ -18,31 +18,41 @@ public class RandomControlGenerator
     
     public static Button generateButton()
     {
-        Button btn = new Button();
-        btn.setX(rand.nextInt(width)); 
-        btn.setY(rand.nextInt(height));
-        btn.setName("btn"+(correlative++));
-        btn.setValue("btn"+correlative);
-        btn.setWidth(rand.nextInt(controlWidth));
-        btn.setHeight(rand.nextInt(controlHeight));
-        btn.setEnabled(rand.nextInt(2)==0);
-        // No need to randomize this attribute
-        // But if you do, copy this line: rand.nextInt(2)==0
-        btn.setVisible(true);
+        String name = "btn";
+        Button btn = (Button) getControl(name);
+        btn.setValue(name+correlative);
         return btn;
     }
     
     public static Label generateLabel()
     {
+        String name = "lbl";
         Label lbl = new Label();
-        lbl.setX(rand.nextInt(width)); 
-        lbl.setY(rand.nextInt(height));
-        lbl.setName("btn"+(correlative++));
-        lbl.setValue("btn"+correlative);
-        lbl.setWidth(rand.nextInt(controlWidth));
-        lbl.setHeight(rand.nextInt(controlHeight));
-        lbl.setEnabled(rand.nextInt(2)==0);
-        lbl.setVisible(true);
+        lbl.setValue(name+correlative);
         return lbl;
     }
+    
+    public static TextBox generateTextBox()
+    {
+        String name = "txt";
+        TextBox txt = new TextBox();
+        txt.setValue(name+correlative);
+        return txt;
+    }
+    
+    private static Control getControl(String name)
+    {
+        Control control = new Control();
+        control.setX(rand.nextInt(width)); 
+        control.setY(rand.nextInt(height));
+        control.setName(name+(correlative++));
+        control.setWidth(rand.nextInt(controlWidth));
+        control.setHeight(rand.nextInt(controlHeight));
+        control.setEnabled(rand.nextInt(2)==0);
+        // No need to randomize this attribute
+        // But if you do, copy this line: rand.nextInt(2)==0
+        control.setVisible(true);
+        return control;
+    }
+    
 }
