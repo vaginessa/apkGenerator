@@ -93,8 +93,9 @@ public class Principal extends javax.swing.JFrame {
     {
         ArrayList<Control> list = new ArrayList<Control>();
         list.add(RandomControlGenerator.generateButton());
-        list.add(RandomControlGenerator.generateButton());
-        list.add(RandomControlGenerator.generateLabel());
+        list.add(RandomControlGenerator.generateCheckBox());
+        list.add(RandomControlGenerator.generateRadioButton());
+        list.add(RandomControlGenerator.generateTextBox());
         list.add(RandomControlGenerator.generateLabel());
         return list;
     }
