@@ -186,6 +186,9 @@ public class LayoutGenerator
             DOMSource source = new DOMSource(document);
             trans.transform(source, result);
             String xml = sw.toString();
+            
+            JOptionPane.showMessageDialog(null, xml);
+            
             File file = new File(projectPath + folderSep + "res" +
                                 folderSep + "layout" +folderSep+
                                 ("test"+(correlative)+".xml"));

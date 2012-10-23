@@ -92,18 +92,20 @@ public class ApkGenerator {
                                             String storepass, String keypass,
                                             String dname)
 	{
-            String command = extraCommand + "keytool -genkey -keystore "+ keyPath + folderSeparator +"keystore " +" -alias " + 
+            String command = getEscapedString(JAVA_HOME+ folderSeparator + "bin" + folderSeparator + "keytool", OS) +
+                             " -genkey -keystore "+ getEscapedString(keyPath+ folderSeparator +"keystore",OS) +" -alias " + 
                              alias + " -storepass " + storepass + " -keypass " + keypass +
-                             " -dname " + getEscapedString(dname, OS);
+                             " -dname " + getEscapedString(dname, OS);// Check in Linux
             
             print( executeCommand(command) );
 	}
         
         public void generarR(String ProjectHome , String pathToAndroidJar)
         {
-            String command = extraCommand + "aapt package -v -f -m -S " + ProjectHome + "\\res "+
-                             "-J " + ProjectHome +"\\src " + " -M " + ProjectHome + "\\AndroidManifest.xml "+
-                             "-I " + pathToAndroidJar; 
+            String command = getEscapedString(ANDROID_HOME + folderSeparator + "platform-tools" + folderSeparator + "aapt", OS) +
+                             " package -v -f -m -S " + getEscapedString(ProjectHome + getFolderSeparator() +"res",OS)+
+                             " -J " + getEscapedString(ProjectHome + getFolderSeparator() + "src",OS) + " -M " + getEscapedString(ProjectHome+ getFolderSeparator() +"AndroidManifest.xml",OS) +
+                             " -I " + getEscapedString(pathToAndroidJar, OS); 
             
             print( executeCommand(command) );
         }
@@ -114,37 +116,40 @@ public class ApkGenerator {
             String folders = "";
             for(int i=0; i<packageFolders.length; i++)
             {
-                folders += "\\" + packageFolders[i];
+                folders += getFolderSeparator() + packageFolders[i];
             }
-            
-            String command = extraCommand + "javac -verbose -d " + ProjectHome + "\\obj "+
-                             "-classpath " + pathToAndroidJar +";"+ProjectHome+"\\obj "+
-                             "-sourcepath " + ProjectHome + "\\src "+
-                             ProjectHome + folders + "\\*.java";
+            // LAST *.java cant be escaped in windows
+            String command = getEscapedString(JAVA_HOME + folderSeparator + "bin" + folderSeparator + "javac" , OS) +
+                            " -d " + getEscapedString(ProjectHome  + getFolderSeparator() +"obj",OS)+ " " +
+                             "-classpath " + getEscapedString(pathToAndroidJar,OS) +";"+getEscapedString(ProjectHome+ getFolderSeparator() +"obj",OS)+ " " +
+                             "-sourcepath " + getEscapedString(ProjectHome+ getFolderSeparator() +"src",OS) + " " +
+                             ProjectHome+ getFolderSeparator() + "src" + folders + getFolderSeparator() +"*.java";
             print( executeCommand(command) );
         }
         
         public void crearDEX(String ProjectHome)
         {
-            String command = extraCommand + "dx --dex --verbose --output="+
-                            ProjectHome+"\\bin\\classes.dex "+
-                            ProjectHome+"\\obj "+
-                            ProjectHome+"\\lib ";
+            String command = extraCommand + " " +getEscapedString(ANDROID_HOME + folderSeparator + "platform-tools" + folderSeparator + "dx", OS) +
+                            " --dex --output="+
+                            getEscapedString(ProjectHome+getFolderSeparator()+"bin"  + getFolderSeparator() +"classes.dex",OS)+ " "+
+                            getEscapedString(ProjectHome+getFolderSeparator()+"obj",OS)+ " " +
+                            getEscapedString(ProjectHome+getFolderSeparator()+"lib",OS);
             print( executeCommand(command) );
         }
         
         public void crearAPKsinFirma(String ApkName, String ProjectHome, String pathToAndroidJar)
         {
-            String command = extraCommand + "aapt package -v -f -M " + 
-                              ProjectHome + "\\AndroidManifest.xml "+
-                              "-S " + ProjectHome + "\\res " +
-                              "-I " + pathToAndroidJar + " -F " +
-                              ProjectHome + "\\bin\\"+ApkName + " "+
-                              ProjectHome + "\\bin";
+            String command = getEscapedString(ANDROID_HOME + folderSeparator + "platform-tools" + folderSeparator + "aapt", OS)+
+                             " package -v -f -M " + 
+                              getEscapedString(ProjectHome + getFolderSeparator() +"AndroidManifest.xml",OS)+
+                              " -S " + getEscapedString( ProjectHome + getFolderSeparator() +"res",OS) + " " +
+                              " -I " + getEscapedString(pathToAndroidJar,OS) + " -F " +
+                              getEscapedString( ProjectHome + getFolderSeparator() +"bin"+getFolderSeparator()+ApkName,OS) + " "+
+                              getEscapedString(ProjectHome + getFolderSeparator() +"bin",OS);
             print( executeCommand(command) );
         }
         
-        public String getEscapedString(String string, OperatingSystem os)
+        public static String getEscapedString(String string, OperatingSystem os)
         {
             if( os == OperatingSystem.Windows)
             {
@@ -168,11 +173,13 @@ public class ApkGenerator {
             try 
             {
                 JOptionPane.showMessageDialog(null, command);
-                return new BufferedReader(new InputStreamReader(Runtime.getRuntime().exec( command ).getInputStream()));
+                Process process = Runtime.getRuntime().exec( command );
+                process.waitFor();
+                return new BufferedReader(new InputStreamReader(process.getInputStream()));
             }
-            catch (IOException e) 
+            catch (Exception e) 
             { 
-                System.out.println("Algo salio mal");
+                JOptionPane.showMessageDialog(null, e.getMessage());
             }
             return null;
 	}
@@ -190,7 +197,8 @@ public class ApkGenerator {
                 }
             } catch (IOException ex) 
             {
-                System.out.println(ex.getMessage());
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+                //System.out.println(ex.getMessage());
             }	
         }
         

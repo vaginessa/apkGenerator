@@ -2,6 +2,7 @@ package _apkGenerator;
 
 import java.io.*;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.xml.parsers.*;
 import javax.xml.transform.*;
 import javax.xml.transform.dom.*;
@@ -98,7 +99,8 @@ public class ManifestGenerator
         }
         catch(Exception e)
         {
-            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, e.getMessage());
+            //System.out.println(e.getMessage());
         }
     }
 }

@@ -1,13 +1,13 @@
 
 package _apkGenerator;
 
+import Semantics.Controls.*;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.util.ArrayList;
+import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-
-import Semantics.Controls.*;
 
 public class Principal extends javax.swing.JFrame {
 
@@ -16,6 +16,7 @@ public class Principal extends javax.swing.JFrame {
     private String RutaProyecto = null;
     
     private ApkGenerator genApk = null;
+    ArrayList<Control> list = new ArrayList<Control>();
     
     @Override
     public Image getIconImage() {
@@ -39,11 +40,15 @@ public class Principal extends javax.swing.JFrame {
         }
         
         RutaJava = "C:\\Program Files\\Java\\jdk1.6.0_34";
-        RutaAndroid = "\"C:\\Program Files (x86)\\Android\\android-sdk\"";
+        RutaAndroid = "C:\\Program Files (x86)\\Android\\android-sdk";
         RutaProyecto = "";
+        
+        genApk.JAVA_HOME = RutaJava;
+        genApk.ANDROID_HOME = RutaAndroid;
         
         txtRutaAndroid.setText( RutaAndroid);
         txtRutaJDK.setText(RutaJava);
+        txtAndroidJar.setText("C:\\Program Files (x86)\\Android\\android-sdk\\platforms\\android-10\\android.jar");
     }
     
     private String cargarFolder()
@@ -59,10 +64,10 @@ public class Principal extends javax.swing.JFrame {
         {
             ruta = dialogo.getSelectedFile().getAbsolutePath();
             // Si contiene espacio agregar comillas dobles para evitar problemas
-            if( ruta.contains(" "))
+            /*if( ruta.contains(" "))
             {
                 ruta = "\"" + ruta + "\"";
-            }
+            }*/
         }
         
         return ruta;
@@ -80,10 +85,10 @@ public class Principal extends javax.swing.JFrame {
         {
             ruta = dialogo.getSelectedFile().getAbsolutePath();
             // Si contiene espacio agregar comillas dobles para evitar problemas
-            if( ruta.contains(" "))
+            /*if( ruta.contains(" "))
             {
                 ruta = "\"" + ruta + "\"";
-            }
+            }*/
         }
         
         return ruta;
@@ -91,7 +96,6 @@ public class Principal extends javax.swing.JFrame {
     
     public ArrayList<Control> getControls()
     {
-        ArrayList<Control> list = new ArrayList<Control>();
         list.add(RandomControlGenerator.generateButton());
         list.add(RandomControlGenerator.generateCheckBox());
         list.add(RandomControlGenerator.generateRadioButton());
@@ -133,6 +137,12 @@ public class Principal extends javax.swing.JFrame {
         btnAndroidJar = new javax.swing.JButton();
         btnCrearManifest = new javax.swing.JButton();
         btnCrearLayout = new javax.swing.JButton();
+        jLabel10 = new javax.swing.JLabel();
+        comboControles = new javax.swing.JComboBox();
+        btnAgregarControl = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jList1 = new javax.swing.JList();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -219,6 +229,26 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
+        jLabel10.setText("Creacion del Proyecto");
+
+        comboControles.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Button", "Label", "TextBox", "CheckBox", "RadioButton", "Picture", "DatePicker" }));
+
+        btnAgregarControl.setText("Agregar Control");
+        btnAgregarControl.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnAgregarControlMouseClicked(evt);
+            }
+        });
+
+        jScrollPane1.setViewportView(jList1);
+
+        jButton1.setText("BotonPrueba");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -226,134 +256,164 @@ public class Principal extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel2))
-                                .addGap(35, 35, 35))
+                                .addComponent(jLabel1)
+                                .addGap(52, 52, 52))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel3)
-                                    .addComponent(jLabel4))
-                                .addGap(13, 13, 13)))
+                                    .addComponent(jLabel2))
+                                .addGap(27, 27, 27)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtRutaAndroid)
-                                    .addComponent(txtRutaProyecto)
-                                    .addComponent(txtRutaJDK))
-                                .addGap(10, 10, 10)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btnCargarRutaAndroid, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(btnCargarRutaProyecto, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(btnCargarRutaJDK, javax.swing.GroupLayout.Alignment.TRAILING))
-                                .addGap(50, 50, 50))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(txtNombreProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                    .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(txtRutaAndroid, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 350, Short.MAX_VALUE)
+                                .addComponent(txtRutaJDK, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(txtRutaProyecto))
+                            .addComponent(jLabel10))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnCrearKeystore, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(36, 36, 36)
-                                .addComponent(filler1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btnCargarRutaJDK)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel5)
-                                    .addComponent(jLabel6)
-                                    .addComponent(jLabel7)
-                                    .addComponent(jLabel8))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(txtStorepass, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtAlias, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtPaqueteProyecto, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)
-                                    .addComponent(txtKeypass))
+                                    .addComponent(btnCargarRutaAndroid)
+                                    .addComponent(btnCargarRutaProyecto))
+                                .addGap(90, 90, 90)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGap(50, 50, 50)
-                                        .addComponent(jLabel11)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(txtAndroidJar)
+                                            .addComponent(jLabel9)
+                                            .addComponent(btnCrearKeystore, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                             .addGroup(layout.createSequentialGroup()
-                                                .addComponent(btnCrearR, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(0, 0, Short.MAX_VALUE))))
+                                                .addComponent(jLabel6)
+                                                .addGap(44, 44, 44)
+                                                .addComponent(txtAlias))
+                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(jLabel7)
+                                                    .addComponent(jLabel8))
+                                                .addGap(18, 18, 18)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(txtKeypass)
+                                                    .addComponent(txtStorepass))))
+                                        .addGap(100, 100, 100))))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(btnAgregarControl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(comboControles, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(18, 18, 18)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btnCrearLayout, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(filler1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGap(38, 38, 38)
-                                        .addComponent(btnEstructuraProyecto)
+                                        .addComponent(jLabel5)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(btnCrearManifest)
-                                        .addGap(0, 0, Short.MAX_VALUE)))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnAndroidJar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(50, 50, 50))))
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(52, 52, 52)
-                        .addComponent(jLabel9))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(35, 35, 35)
-                        .addComponent(btnCrearLayout)))
-                .addContainerGap())
+                                        .addComponent(txtPaqueteProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel4)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(txtNombreProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnEstructuraProyecto)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel11)
+                                .addGap(61, 61, 61)
+                                .addComponent(txtAndroidJar, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnAndroidJar)
+                                .addGap(52, 52, 52)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(29, 29, 29)
+                                .addComponent(btnCrearManifest)
+                                .addGap(28, 28, 28)
+                                .addComponent(btnCrearR, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(60, 60, 60))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton1)
+                                .addGap(68, 68, 68))))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(txtRutaJDK, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCargarRutaJDK))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(17, 17, 17))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtRutaJDK, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel1)
+                        .addComponent(btnCargarRutaJDK))
+                    .addComponent(jLabel6)
+                    .addComponent(txtAlias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
+                    .addComponent(jLabel7)
+                    .addComponent(txtStorepass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtRutaAndroid, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)
                     .addComponent(btnCargarRutaAndroid))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
+                    .addComponent(jLabel8)
+                    .addComponent(txtKeypass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtRutaProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3)
                     .addComponent(btnCargarRutaProyecto))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(16, 16, 16)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
                     .addComponent(txtNombreProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(btnCrearKeystore)
+                    .addComponent(btnEstructuraProyecto))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(txtPaqueteProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEstructuraProyecto)
-                    .addComponent(btnCrearManifest))
-                .addGap(25, 25, 25)
-                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(txtPaqueteProyecto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtAlias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6)
                     .addComponent(jLabel11)
                     .addComponent(txtAndroidJar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnAndroidJar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(txtStorepass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
-                    .addComponent(txtKeypass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(15, 15, 15)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnCrearKeystore)
-                    .addComponent(btnCrearR))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(filler1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(43, 43, 43)
-                .addComponent(btnCrearLayout)
-                .addContainerGap(54, Short.MAX_VALUE))
+                .addGap(28, 28, 28)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(comboControles, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnAgregarControl)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jButton1)
+                                .addGap(14, 14, 14)))
+                        .addComponent(filler1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnCrearR)
+                            .addComponent(btnCrearManifest)
+                            .addComponent(btnCrearLayout))
+                        .addGap(14, 14, 14))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
+                        .addContainerGap())))
         );
 
         pack();
@@ -362,16 +422,19 @@ public class Principal extends javax.swing.JFrame {
     private void btnCargarRutaJDKMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCargarRutaJDKMouseClicked
         RutaJava = cargarFolder();
         txtRutaJDK.setText( RutaJava );
+        genApk.JAVA_HOME = RutaJava;
     }//GEN-LAST:event_btnCargarRutaJDKMouseClicked
 
     private void btnCargarRutaAndroidMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCargarRutaAndroidMouseClicked
         RutaAndroid = cargarFolder();
         txtRutaAndroid.setText( RutaAndroid );
+        genApk.ANDROID_HOME = RutaAndroid;
     }//GEN-LAST:event_btnCargarRutaAndroidMouseClicked
 
     private void btnCargarRutaProyectoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCargarRutaProyectoMouseClicked
         RutaProyecto = cargarFolder();
         txtRutaProyecto.setText( RutaProyecto );
+        genApk.DEV_HOME = RutaProyecto;
     }//GEN-LAST:event_btnCargarRutaProyectoMouseClicked
 
     private void btnEstructuraProyectoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEstructuraProyectoMouseClicked
@@ -396,8 +459,7 @@ public class Principal extends javax.swing.JFrame {
         String alias = txtAlias.getText();
         String storePass = txtStorepass.getText();
         String keypass = txtKeypass.getText();
-        String dname = "CN=android, OU=android, O=android, L=android, S=Villanueva, C=Honduras";
-        
+        String dname = "CN=android, OU=android, O=android, L=android, S=Villanueva, C=Honduras";        
         
         if( genApk != null)
         {
@@ -411,6 +473,11 @@ public class Principal extends javax.swing.JFrame {
     private void btnCrearRMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCrearRMouseClicked
         String androidJarPath = txtAndroidJar.getText();
         JOptionPane.showMessageDialog(null, RutaProyecto+"\\"+txtNombreProyecto.getText());
+        genApk.generarR(RutaProyecto+ApkGenerator.getFolderSeparator()+txtNombreProyecto.getText(),androidJarPath);
+        genApk.compilarCodigo(RutaProyecto+ApkGenerator.getFolderSeparator()+txtNombreProyecto.getText(), 
+                              androidJarPath,txtPaqueteProyecto.getText());
+        genApk.crearDEX(RutaProyecto+ApkGenerator.getFolderSeparator()+txtNombreProyecto.getText());
+        genApk.crearAPKsinFirma(txtNombreProyecto.getText()+".apk", RutaProyecto+ApkGenerator.getFolderSeparator()+txtNombreProyecto.getText(), androidJarPath);
         /*Functions.generarR(RutaProyecto+"\\"+txtNombreProyecto.getText(), androidJarPath);
         Functions.compilarCodigo(RutaProyecto+"\\"+txtNombreProyecto.getText(), androidJarPath, txtPaqueteProyecto.getText());
         Functions.crearDEX(RutaProyecto+"\\"+txtNombreProyecto.getText());
@@ -423,15 +490,18 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAndroidJarMouseClicked
 
     private void btnCrearManifestMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCrearManifestMouseClicked
-//        ManifestGenerator mGen = new ManifestGenerator();
-        
+
+        ManifestGenerator mGen = new ManifestGenerator(txtPaqueteProyecto.getText(),"10");
+        ArrayList<String> lista = new ArrayList<String>();
+        lista.add("Main");
+        mGen.generateManifestApplication("MyApp", lista);
+        mGen.generateManifestFile(RutaProyecto+ ApkGenerator.getFolderSeparator() +txtNombreProyecto.getText());
     }//GEN-LAST:event_btnCrearManifestMouseClicked
 
     private void btnCrearLayoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCrearLayoutMouseClicked
 
         LayoutGenerator layoutGenerator = new LayoutGenerator();
-        
-        
+               
         ArrayList<Control> controls = getControls();
         for(Control control : controls)
         {
@@ -446,13 +516,62 @@ public class Principal extends javax.swing.JFrame {
             {
                 Label lbl = (Label) control;
                 layoutGenerator.generateLayoutLabel(lbl.getName(), lbl.getValue(), lbl.getX(), 
-                                                     lbl.getY(), lbl.getWidth(), lbl.getHeight(), 
-                                                     lbl.isVisible(), lbl.isEnabled());
+                                                    lbl.getY(), lbl.getWidth(), lbl.getHeight(), 
+                                                    lbl.isVisible(), lbl.isEnabled());
             }
         }
         layoutGenerator.generateLayout(RutaProyecto+ApkGenerator.getFolderSeparator()+
                                        txtNombreProyecto.getText());
     }//GEN-LAST:event_btnCrearLayoutMouseClicked
+
+    private void btnAgregarControlMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAgregarControlMouseClicked
+        DefaultListModel model;
+        if( jList1.getModel().getSize() == 0){
+            model =  new DefaultListModel();    
+        }
+        else{
+            model = (DefaultListModel) jList1.getModel();
+        }
+        String control = comboControles.getItemAt(comboControles.getSelectedIndex()).toString();
+        if( control.equals("Button"))
+        {
+            model.addElement(control);
+        }
+        else if(control.equals("TextBox"))
+        {
+            model.addElement(control);
+        }
+        else if(control.equals("Label"))
+        {
+            model.addElement(control);
+        }
+        else if(control.equals("Picture"))
+        {
+            model.addElement(control);
+        }
+        else if(control.equals("DatePicker"))
+        {
+            model.addElement(control);
+        }
+        else if(control.equals("CheckBox"))
+        {
+            model.addElement(control);
+        }
+        else if(control.equals("RadioButton"))
+        {
+            model.addElement(control);
+        }
+        else if(control.equals("RadioButton"))
+        {
+            model.addElement(control);
+        }
+        
+        jList1.setModel(model);
+    }//GEN-LAST:event_btnAgregarControlMouseClicked
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        genApk.print(genApk.executeCommand("cmd /c dx"));
+    }//GEN-LAST:event_jButton1MouseClicked
    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -487,12 +606,13 @@ public class Principal extends javax.swing.JFrame {
                 Toolkit kit = Toolkit.getDefaultToolkit();
                 Image img = kit.createImage(url);
                 p.setIconImage(img);
-                
+                                
                 p.setVisible(true);
             }
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAgregarControl;
     private javax.swing.JButton btnAndroidJar;
     private javax.swing.JButton btnCargarRutaAndroid;
     private javax.swing.JButton btnCargarRutaJDK;
@@ -502,8 +622,11 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton btnCrearManifest;
     private javax.swing.JButton btnCrearR;
     private javax.swing.JButton btnEstructuraProyecto;
+    private javax.swing.JComboBox comboControles;
     private javax.swing.Box.Filler filler1;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -513,6 +636,8 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JList jList1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField txtAlias;
     private javax.swing.JTextField txtAndroidJar;
     private javax.swing.JTextField txtKeypass;
