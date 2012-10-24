@@ -59,6 +59,8 @@ public class ManifestGenerator
         // SetDefaultIcon
         Element application = document.createElement("application");
         application.setAttribute("android:label", applicationName);
+        // Change icon dynamic
+        application.setAttribute("android:icon", "@drawable/potato");
         
         for( String activityName : activities)
         {
@@ -71,7 +73,22 @@ public class ManifestGenerator
     {       
         // Add intent-filter ??
         Element activity = document.createElement("activity");
-        activity.setAttribute("android:name", "."+activityName);      
+        activity.setAttribute("android:name", "."+activityName);
+        
+        // We have to choose Main class
+        Element intentFilter = document.createElement("intent-filter");
+        
+        Element action = document.createElement("action");
+        action.setAttribute("android:name", "android.intent.action.MAIN");
+        
+        Element category = document.createElement("category");
+        category.setAttribute("android:name","android.intent.category.LAUNCHER");
+        
+        intentFilter.appendChild(action);
+        intentFilter.appendChild(category);
+        
+        activity.appendChild(intentFilter);
+        
         application.appendChild(activity);
         return application;
     }

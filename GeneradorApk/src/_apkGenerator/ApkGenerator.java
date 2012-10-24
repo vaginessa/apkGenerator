@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import javax.swing.JOptionPane;
+import org.omg.CORBA_2_3.portable.OutputStream;
 
 public class ApkGenerator {
 
@@ -134,11 +135,11 @@ public class ApkGenerator {
                             getEscapedString(ProjectHome+getFolderSeparator()+"bin"  + getFolderSeparator() +"classes.dex",OS)+ " "+
                             getEscapedString(ProjectHome+getFolderSeparator()+"obj",OS)+ " " +
                             getEscapedString(ProjectHome+getFolderSeparator()+"lib",OS);
-            print( executeCommand(command) );
+            executeCommand(command);
         }
         
         public void crearAPKsinFirma(String ApkName, String ProjectHome, String pathToAndroidJar)
-        {
+        {   
             String command = getEscapedString(ANDROID_HOME + folderSeparator + "platform-tools" + folderSeparator + "aapt", OS)+
                              " package -v -f -M " + 
                               getEscapedString(ProjectHome + getFolderSeparator() +"AndroidManifest.xml",OS)+
@@ -146,6 +147,13 @@ public class ApkGenerator {
                               " -I " + getEscapedString(pathToAndroidJar,OS) + " -F " +
                               getEscapedString( ProjectHome + getFolderSeparator() +"bin"+getFolderSeparator()+ApkName,OS) + " "+
                               getEscapedString(ProjectHome + getFolderSeparator() +"bin",OS);
+            print( executeCommand(command) );
+        }
+        
+        public void firmarApk(String keystorePath, String keypass, String keystore)
+        {
+            String command = "";
+            
             print( executeCommand(command) );
         }
         
@@ -174,7 +182,6 @@ public class ApkGenerator {
             {
                 JOptionPane.showMessageDialog(null, command);
                 Process process = Runtime.getRuntime().exec( command );
-                process.waitFor();
                 return new BufferedReader(new InputStreamReader(process.getInputStream()));
             }
             catch (Exception e) 

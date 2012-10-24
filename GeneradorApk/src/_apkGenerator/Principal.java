@@ -4,7 +4,13 @@ package _apkGenerator;
 import Semantics.Controls.*;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -519,6 +525,20 @@ public class Principal extends javax.swing.JFrame {
                                                     lbl.getY(), lbl.getWidth(), lbl.getHeight(), 
                                                     lbl.isVisible(), lbl.isEnabled());
             }
+            else if( control instanceof CheckBox)
+            {
+                CheckBox chk = (CheckBox) control;
+                layoutGenerator.generateLayoutCheckbox(chk.getName(), chk.getText(), chk.getX(), 
+                                                       chk.getY(), chk.getWidth(), chk.getHeight(),
+                                                       chk.isVisible(), chk.isEnabled(), chk.isChecked());
+            }
+            else if( control instanceof TextBox)
+            {
+                TextBox txt = (TextBox) control;
+                layoutGenerator.generateLayoutTextBox(txt.getName(), txt.getValue(), txt.getX(), 
+                                                      txt.getY(), txt.getWidth(), txt.getHeight(), 
+                                                      txt.isVisible(), txt.isEnabled());
+            }
         }
         layoutGenerator.generateLayout(RutaProyecto+ApkGenerator.getFolderSeparator()+
                                        txtNombreProyecto.getText());
@@ -570,7 +590,18 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAgregarControlMouseClicked
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-        genApk.print(genApk.executeCommand("cmd /c dx"));
+        genApk.print(genApk.executeCommand("\"C:\\Program Files (x86)\\Android\\android-sdk\\platform-tools\\dx.bat\""));
+/*        ProcessBuilder p = new ProcessBuilder("C:\\\\Program Files (x86)\\\\Android\\\\android-sdk\\\\platform-tools\\\\dx.bat");
+        p.directory(new File("C:\\\\Program Files (x86)\\\\Android\\\\android-sdk\\\\platform-tools"));
+        try
+        {
+            Process la = p.start();
+            
+        } 
+        catch (IOException ex) 
+        {
+            System.out.println(ex.getMessage());
+        }*/
     }//GEN-LAST:event_jButton1MouseClicked
    
     public static void main(String args[]) {

@@ -16,6 +16,8 @@ public class LayoutGenerator
     DocumentBuilder docBuilder = null;
     Document document = null;
     Element root = null;
+    Element scrollView = null;
+    Element horizontalScrollView = null;
     int correlative;
     
     public LayoutGenerator()
@@ -36,12 +38,28 @@ public class LayoutGenerator
     
     private void generateLayoutRoot()
     {
+        scrollView = document.createElement("ScrollView");
+        scrollView.setAttribute("xmlns:android", "http://schemas.android.com/apk/res/android");
+        scrollView.setAttribute("android:layout_width", "match_parent");
+        scrollView.setAttribute("android:layout_height", "match_parent");
+        scrollView.setAttribute("android:background", "@android:color/darker_gray");
+        
+        horizontalScrollView = document.createElement("HorizontalScrollView");        
+        horizontalScrollView.setAttribute("xmlns:android", "http://schemas.android.com/apk/res/android");
+        horizontalScrollView.setAttribute("android:layout_width", "match_parent");
+        horizontalScrollView.setAttribute("android:layout_height", "match_parent");
+        horizontalScrollView.setAttribute("android:background", "@android:color/darker_gray");
+        
         root = document.createElement("AbsoluteLayout");
         root.setAttribute("xmlns:android", "http://schemas.android.com/apk/res/android");
         root.setAttribute("xmlns:tools", "http://schemas.android.com/tools");
         root.setAttribute("android:layout_width", "match_parent");
         root.setAttribute("android:layout_height", "match_parent");
-        document.appendChild(root);
+        root.setAttribute("android:background", "@android:color/darker_gray");
+
+        scrollView.appendChild(horizontalScrollView);
+        horizontalScrollView.appendChild(root);
+        document.appendChild(scrollView);
     }
     
     public void generateLayoutButton(String idName, String text, int x, int y, 
@@ -78,7 +96,7 @@ public class LayoutGenerator
     public void generateLayoutTextBox(String idName, String text, int x, int y, int width, int height,
                                     boolean visible, boolean enabled)
     {
-        Element textbox = document.createElement("TextView");
+        Element textbox = document.createElement("EditText");
         textbox.setAttribute("android:id", "@+id/"+idName);
         textbox.setAttribute("android:text", text);
         textbox.setAttribute("android:layout_x", x+"dp");

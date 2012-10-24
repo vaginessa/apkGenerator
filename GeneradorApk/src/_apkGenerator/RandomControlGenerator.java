@@ -14,7 +14,7 @@ public class RandomControlGenerator
     private final static int controlHeight = 50;
     
     // DontTouch
-    private static int correlative = 0;
+    private static int correlative = 0; 
     public static Random rand = new Random();
     
     public static Button generateButton()
@@ -25,8 +25,8 @@ public class RandomControlGenerator
         btn.setX(rand.nextInt(width)); 
         btn.setY(rand.nextInt(height));
         btn.setName(name+(correlative++));
-        btn.setWidth(rand.nextInt(controlWidth));
-        btn.setHeight(rand.nextInt(controlHeight));
+        btn.setWidth(rand.nextInt(controlWidth) + 60);
+        btn.setHeight(rand.nextInt(controlHeight) + 60 );
         btn.setEnabled(rand.nextBoolean());
         btn.setVisible(true);
         
@@ -42,8 +42,8 @@ public class RandomControlGenerator
         lbl.setX(rand.nextInt(width)); 
         lbl.setY(rand.nextInt(height));
         lbl.setName(name+(correlative++));
-        lbl.setWidth(rand.nextInt(controlWidth));
-        lbl.setHeight(rand.nextInt(controlHeight));
+        lbl.setWidth(rand.nextInt(controlWidth)+ 60);
+        lbl.setHeight(rand.nextInt(controlHeight)+ 60);
         lbl.setEnabled(rand.nextBoolean());
         lbl.setVisible(true);
         
@@ -59,8 +59,8 @@ public class RandomControlGenerator
         txt.setX(rand.nextInt(width)); 
         txt.setY(rand.nextInt(height));
         txt.setName(name+(correlative++));
-        txt.setWidth(rand.nextInt(controlWidth));
-        txt.setHeight(rand.nextInt(controlHeight));
+        txt.setWidth(rand.nextInt(controlWidth)+ 60);
+        txt.setHeight(rand.nextInt(controlHeight)+ 60);
         txt.setEnabled(rand.nextBoolean());
         txt.setVisible(true);
         
@@ -76,8 +76,8 @@ public class RandomControlGenerator
         chkBox.setX(rand.nextInt(width)); 
         chkBox.setY(rand.nextInt(height));
         chkBox.setName(name+(correlative++));
-        chkBox.setWidth(rand.nextInt(controlWidth));
-        chkBox.setHeight(rand.nextInt(controlHeight));
+        chkBox.setWidth(rand.nextInt(controlWidth)+ 60);
+        chkBox.setHeight(rand.nextInt(controlHeight)+ 60);
         chkBox.setEnabled(rand.nextBoolean());
         chkBox.setVisible(true);
         
@@ -95,8 +95,8 @@ public class RandomControlGenerator
         datePicker.setX(rand.nextInt(width)); 
         datePicker.setY(rand.nextInt(height));
         datePicker.setName(name+(correlative++));
-        datePicker.setWidth(rand.nextInt(controlWidth));
-        datePicker.setHeight(rand.nextInt(controlHeight));
+        datePicker.setWidth(rand.nextInt(controlWidth)+ 60);
+        datePicker.setHeight(rand.nextInt(controlHeight)+ 60);
         datePicker.setEnabled(rand.nextBoolean());
         datePicker.setVisible(true);
         
@@ -111,8 +111,8 @@ public class RandomControlGenerator
         radioBtn.setX(rand.nextInt(width)); 
         radioBtn.setY(rand.nextInt(height));
         radioBtn.setName(name+(correlative++));
-        radioBtn.setWidth(rand.nextInt(controlWidth));
-        radioBtn.setHeight(rand.nextInt(controlHeight));
+        radioBtn.setWidth(rand.nextInt(controlWidth)+ 60);
+        radioBtn.setHeight(rand.nextInt(controlHeight)+ 60);
         radioBtn.setEnabled(rand.nextBoolean());
         radioBtn.setVisible(true);
         
