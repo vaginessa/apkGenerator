@@ -5,7 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import javax.swing.JOptionPane;
-import org.omg.CORBA_2_3.portable.OutputStream;
+
 
 public class ApkGenerator {
 
@@ -18,7 +18,6 @@ public class ApkGenerator {
 	public String DEV_HOME = null;
         
         public String folderSeparator = null;
-        private String extraCommand = "";
         OperatingSystem OS = null;
         
         public enum OperatingSystem{ Windows, UnixBased }
@@ -32,7 +31,6 @@ public class ApkGenerator {
             else if( os == OperatingSystem.Windows)
             {
                 folderSeparator = "\\";
-                extraCommand = "cmd /c ";
             }
             this.OS = os;
         }
@@ -96,7 +94,7 @@ public class ApkGenerator {
             String command = getEscapedString(JAVA_HOME+ folderSeparator + "bin" + folderSeparator + "keytool", OS) +
                              " -genkey -keystore "+ getEscapedString(keyPath+ folderSeparator +"keystore",OS) +" -alias " + 
                              alias + " -storepass " + storepass + " -keypass " + keypass +
-                             " -dname " + getEscapedString(dname, OS);// Check in Linux
+                             " -dname " + dname;// Check in Linux
             
             print( executeCommand(command) );
 	}
@@ -122,15 +120,16 @@ public class ApkGenerator {
             // LAST *.java cant be escaped in windows
             String command = getEscapedString(JAVA_HOME + folderSeparator + "bin" + folderSeparator + "javac" , OS) +
                             " -d " + getEscapedString(ProjectHome  + getFolderSeparator() +"obj",OS)+ " " +
-                             "-classpath " + getEscapedString(pathToAndroidJar,OS) +";"+getEscapedString(ProjectHome+ getFolderSeparator() +"obj",OS)+ " " +
+                             "-classpath " + getEscapedString(pathToAndroidJar,OS) + (OS==OperatingSystem.Windows?";":":")+
+                             getEscapedString(ProjectHome+ getFolderSeparator() +"obj",OS)+ " " +
                              "-sourcepath " + getEscapedString(ProjectHome+ getFolderSeparator() +"src",OS) + " " +
                              ProjectHome+ getFolderSeparator() + "src" + folders + getFolderSeparator() +"*.java";
-            print( executeCommand(command) );
+            print( executeCommand2(command) );
         }
         
         public void crearDEX(String ProjectHome)
         {
-            String command = extraCommand + " " +getEscapedString(ANDROID_HOME + folderSeparator + "platform-tools" + folderSeparator + "dx", OS) +
+            String command =getEscapedString(ANDROID_HOME + folderSeparator + "platform-tools" + folderSeparator + "dx.bat", OS) +
                             " --dex --output="+
                             getEscapedString(ProjectHome+getFolderSeparator()+"bin"  + getFolderSeparator() +"classes.dex",OS)+ " "+
                             getEscapedString(ProjectHome+getFolderSeparator()+"obj",OS)+ " " +
@@ -145,14 +144,28 @@ public class ApkGenerator {
                               getEscapedString(ProjectHome + getFolderSeparator() +"AndroidManifest.xml",OS)+
                               " -S " + getEscapedString( ProjectHome + getFolderSeparator() +"res",OS) + " " +
                               " -I " + getEscapedString(pathToAndroidJar,OS) + " -F " +
-                              getEscapedString( ProjectHome + getFolderSeparator() +"bin"+getFolderSeparator()+ApkName,OS) + " "+
+                              getEscapedString( ProjectHome + getFolderSeparator() +"bin"+getFolderSeparator()+ApkName+"Unsigned.apk",OS) + " "+
                               getEscapedString(ProjectHome + getFolderSeparator() +"bin",OS);
             print( executeCommand(command) );
         }
         
-        public void firmarApk(String keystorePath, String keypass, String keystore)
+        public void firmarApk(String apkName,String ProjectHome,String keyalias ,String storepass, String keypass)
         {
-            String command = "";
+            String command = getEscapedString(JAVA_HOME + folderSeparator + "bin" + folderSeparator + "jarsigner", OS)+
+                             " -keystore " + getEscapedString(ProjectHome+getFolderSeparator()+"keystore", OS) + " " +
+                             " -storepass " + storepass + " -keypass " + keypass + " -signedjar " + 
+                             getEscapedString(ProjectHome+getFolderSeparator()+"bin"+getFolderSeparator()+apkName+"Signed.apk", OS)+
+                             " " + getEscapedString(ProjectHome+getFolderSeparator()+"bin"+getFolderSeparator()+apkName+"Unsigned.apk", OS)+
+                             " " + keyalias;
+            
+            print( executeCommand2(command) );
+        }
+        
+        public void optimizeApk(String apkName, String ProjectHome)
+        {
+            String command = getEscapedString(ANDROID_HOME + folderSeparator + "tools" + folderSeparator + "zipalign", OS) + 
+                             " -v -f 4 " + getEscapedString(ProjectHome + getFolderSeparator() + "bin" + getFolderSeparator() + apkName +"Signed.apk", OS)+
+                             " " + getEscapedString(ProjectHome + getFolderSeparator() + "bin" + getFolderSeparator() + apkName +".apk", OS);
             
             print( executeCommand(command) );
         }
@@ -180,8 +193,9 @@ public class ApkGenerator {
 	{
             try 
             {
-                JOptionPane.showMessageDialog(null, command);
-                Process process = Runtime.getRuntime().exec( command );
+                ProcessBuilder builder = new ProcessBuilder(command);
+                builder.redirectErrorStream(true);
+                Process process = builder.start();
                 return new BufferedReader(new InputStreamReader(process.getInputStream()));
             }
             catch (Exception e) 
@@ -191,8 +205,27 @@ public class ApkGenerator {
             return null;
 	}
 
+        public BufferedReader executeCommand2(String command)
+	{
+            // For Java
+            try 
+            {
+                //JOptionPane.showMessageDialog(null, command);
+                Process process = Runtime.getRuntime().exec( command );
+                return new BufferedReader(new InputStreamReader(process.getInputStream()));
+            }
+            catch (Exception e) 
+            { 
+                JOptionPane.showMessageDialog(null, e.getMessage());
+            }
+            return null;
+	}
+        
         public void print(BufferedReader br)
         {
+            if( br == null) {
+                return;
+            }
             String line;
             try 
             {

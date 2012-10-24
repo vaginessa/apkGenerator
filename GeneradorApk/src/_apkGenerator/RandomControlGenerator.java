@@ -120,18 +120,22 @@ public class RandomControlGenerator
         radioBtn.setText(name+correlative);
         return radioBtn;
     }
-        
-    /*private static Control getControl(String name)
+    
+    public static Picture generatePicture(String imagePath)
     {
-        Control control = new Control();
-        control.setX(rand.nextInt(width)); 
-        control.setY(rand.nextInt(height));
-        control.setName(name+(correlative++));
-        control.setWidth(rand.nextInt(controlWidth));
-        control.setHeight(rand.nextInt(controlHeight));
-        control.setEnabled(rand.nextBoolean());
-        control.setVisible(true);
-        return control;
-    }*/
+        String name = "pic";
+        Picture pic = new Picture();
+        
+        pic.setX(rand.nextInt(width)); 
+        pic.setY(rand.nextInt(height));
+        pic.setName(name+(correlative++));
+        pic.setWidth(rand.nextInt(controlWidth)+ 60);
+        pic.setHeight(rand.nextInt(controlHeight)+ 60);
+        pic.setEnabled(rand.nextBoolean());
+        pic.setVisible(true);
+        
+        pic.setPath(imagePath);        
+        return pic;
+    }
     
 }

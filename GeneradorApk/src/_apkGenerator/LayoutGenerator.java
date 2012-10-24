@@ -159,6 +159,7 @@ public class LayoutGenerator
     }
     
     public void generateLayoutPicture(String imagePath, String projectPath,String idName,
+                                      int width, int height,
                                       int x, int y, boolean visible, boolean enabled)
     {
         // copy image to folder
@@ -166,11 +167,14 @@ public class LayoutGenerator
         Element imageView = document.createElement("ImageView");
         imageView.setAttribute("android:src", "@drawable/"+imageName); 
         imageView.setAttribute("android:id", "@+id/"+idName);
+        imageView.setAttribute("android:layout_width", ""+width+"dp");
+        imageView.setAttribute("android:layout_height", ""+height+"dp");
         imageView.setAttribute("android:layout_x", x+"dp");
         imageView.setAttribute("android:layout_y", y+"dp");
         imageView.setAttribute("android:visibility", visible?"visible":"invisible");        
         imageView.setAttribute("android:enabled", enabled?"true":"false");
         
+        root.appendChild(imageView);
     }
     
     // To Do's
@@ -234,6 +238,7 @@ public class LayoutGenerator
         File destinyImage = new File(projectPath + folderSeparator + 
                                     "res" + folderSeparator + "drawable"+ 
                                     folderSeparator + destinyImageName);
+        
         try 
         {
             InputStream in = new FileInputStream(originImage);

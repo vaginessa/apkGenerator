@@ -4,13 +4,7 @@ package _apkGenerator;
 import Semantics.Controls.*;
 import java.awt.Image;
 import java.awt.Toolkit;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -69,11 +63,6 @@ public class Principal extends javax.swing.JFrame {
         if( resultado == JFileChooser.APPROVE_OPTION)
         {
             ruta = dialogo.getSelectedFile().getAbsolutePath();
-            // Si contiene espacio agregar comillas dobles para evitar problemas
-            /*if( ruta.contains(" "))
-            {
-                ruta = "\"" + ruta + "\"";
-            }*/
         }
         
         return ruta;
@@ -90,11 +79,6 @@ public class Principal extends javax.swing.JFrame {
         if( resultado == JFileChooser.APPROVE_OPTION)
         {
             ruta = dialogo.getSelectedFile().getAbsolutePath();
-            // Si contiene espacio agregar comillas dobles para evitar problemas
-            /*if( ruta.contains(" "))
-            {
-                ruta = "\"" + ruta + "\"";
-            }*/
         }
         
         return ruta;
@@ -107,6 +91,7 @@ public class Principal extends javax.swing.JFrame {
         list.add(RandomControlGenerator.generateRadioButton());
         list.add(RandomControlGenerator.generateTextBox());
         list.add(RandomControlGenerator.generateLabel());
+        list.add(RandomControlGenerator.generatePicture("C:\\Users\\Richard\\Documents\\potato.png"));
         return list;
     }
     
@@ -317,7 +302,10 @@ public class Principal extends javax.swing.JFrame {
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btnCrearLayout, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(jButton1)
+                                        .addGap(31, 31, 31)
+                                        .addComponent(btnCrearLayout))
                                     .addComponent(filler1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -339,17 +327,11 @@ public class Principal extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnAndroidJar)
                                 .addGap(52, 52, 52)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(29, 29, 29)
-                                .addComponent(btnCrearManifest)
-                                .addGap(28, 28, 28)
-                                .addComponent(btnCrearR, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(60, 60, 60))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton1)
-                                .addGap(68, 68, 68))))))
+                        .addGap(29, 29, 29)
+                        .addComponent(btnCrearManifest)
+                        .addGap(28, 28, 28)
+                        .addComponent(btnCrearR, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(60, 60, 60))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -400,22 +382,17 @@ public class Principal extends javax.swing.JFrame {
                 .addGap(28, 28, 28)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(comboControles, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnAgregarControl)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jButton1)
-                                .addGap(14, 14, 14)))
+                        .addComponent(comboControles, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnAgregarControl)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(filler1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnCrearR)
                             .addComponent(btnCrearManifest)
-                            .addComponent(btnCrearLayout))
+                            .addComponent(btnCrearLayout)
+                            .addComponent(jButton1))
                         .addGap(14, 14, 14))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
@@ -454,10 +431,6 @@ public class Principal extends javax.swing.JFrame {
                                      txtNombreProyecto.getText(),
                                      txtPaqueteProyecto.getText());
         
-        /*Functions.packageName = txtPaqueteProyecto.getText();
-        Functions.projectName = txtNombreProyecto.getText();
-        Functions.pathProject = txtRutaProyecto.getText();
-        Functions.createFolderStructure();*/
     }//GEN-LAST:event_btnEstructuraProyectoMouseClicked
 
     private void btnCrearKeystoreMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCrearKeystoreMouseClicked
@@ -465,30 +438,28 @@ public class Principal extends javax.swing.JFrame {
         String alias = txtAlias.getText();
         String storePass = txtStorepass.getText();
         String keypass = txtKeypass.getText();
-        String dname = "CN=android, OU=android, O=android, L=android, S=Villanueva, C=Honduras";        
+        String dname = "\"CN=android, OU=android, O=android, L=android, S=Villanueva, C=Honduras\"";        
         
         if( genApk != null)
         {
             genApk.generateKeystore(RutaProyecto + genApk.folderSeparator + txtNombreProyecto.getText(),
                                     alias, storePass, keypass, dname);
         }
-        //Functions.generateKeystore(RutaProyecto+"\\"+txtNombreProyecto.getText(), 
-          //                         alias, storePass, keypass, dname);
     }//GEN-LAST:event_btnCrearKeystoreMouseClicked
 
     private void btnCrearRMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCrearRMouseClicked
         String androidJarPath = txtAndroidJar.getText();
+        
+        String projectHome = RutaProyecto+ApkGenerator.getFolderSeparator()+txtNombreProyecto.getText();
+        
         JOptionPane.showMessageDialog(null, RutaProyecto+"\\"+txtNombreProyecto.getText());
-        genApk.generarR(RutaProyecto+ApkGenerator.getFolderSeparator()+txtNombreProyecto.getText(),androidJarPath);
-        genApk.compilarCodigo(RutaProyecto+ApkGenerator.getFolderSeparator()+txtNombreProyecto.getText(), 
-                              androidJarPath,txtPaqueteProyecto.getText());
-        genApk.crearDEX(RutaProyecto+ApkGenerator.getFolderSeparator()+txtNombreProyecto.getText());
-        genApk.crearAPKsinFirma(txtNombreProyecto.getText()+".apk", RutaProyecto+ApkGenerator.getFolderSeparator()+txtNombreProyecto.getText(), androidJarPath);
-        /*Functions.generarR(RutaProyecto+"\\"+txtNombreProyecto.getText(), androidJarPath);
-        Functions.compilarCodigo(RutaProyecto+"\\"+txtNombreProyecto.getText(), androidJarPath, txtPaqueteProyecto.getText());
-        Functions.crearDEX(RutaProyecto+"\\"+txtNombreProyecto.getText());
-        Functions.crearAPKsinFirma(txtNombreProyecto.getText()+".apk", RutaProyecto+"\\"+txtNombreProyecto.getText(), androidJarPath);
-        */
+        genApk.generarR(projectHome,androidJarPath);
+        genApk.compilarCodigo(projectHome,androidJarPath,txtPaqueteProyecto.getText());
+        
+        genApk.crearDEX(projectHome);
+        genApk.crearAPKsinFirma(txtNombreProyecto.getText(), projectHome, androidJarPath);
+        genApk.firmarApk(txtNombreProyecto.getText(), projectHome, txtAlias.getText(), txtStorepass.getText(), txtKeypass.getText());
+        genApk.optimizeApk(txtNombreProyecto.getText(), projectHome);
     }//GEN-LAST:event_btnCrearRMouseClicked
 
     private void btnAndroidJarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAndroidJarMouseClicked
@@ -539,15 +510,25 @@ public class Principal extends javax.swing.JFrame {
                                                       txt.getY(), txt.getWidth(), txt.getHeight(), 
                                                       txt.isVisible(), txt.isEnabled());
             }
+            else if( control instanceof Picture)
+            {
+                Picture pic = (Picture) control;
+                layoutGenerator.generateLayoutPicture(pic.getPath(), RutaProyecto+ApkGenerator.getFolderSeparator()+txtNombreProyecto.getText(),
+                                                    pic.getName(),pic.getWidth(),pic.getHeight(),pic.getX(), pic.getY(), pic.isVisible(), pic.isEnabled());
+            }
         }
         layoutGenerator.generateLayout(RutaProyecto+ApkGenerator.getFolderSeparator()+
                                        txtNombreProyecto.getText());
     }//GEN-LAST:event_btnCrearLayoutMouseClicked
 
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+
+    }//GEN-LAST:event_jButton1MouseClicked
+
     private void btnAgregarControlMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAgregarControlMouseClicked
         DefaultListModel model;
         if( jList1.getModel().getSize() == 0){
-            model =  new DefaultListModel();    
+            model =  new DefaultListModel();
         }
         else{
             model = (DefaultListModel) jList1.getModel();
@@ -585,24 +566,9 @@ public class Principal extends javax.swing.JFrame {
         {
             model.addElement(control);
         }
-        
+
         jList1.setModel(model);
     }//GEN-LAST:event_btnAgregarControlMouseClicked
-
-    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-        genApk.print(genApk.executeCommand("\"C:\\Program Files (x86)\\Android\\android-sdk\\platform-tools\\dx.bat\""));
-/*        ProcessBuilder p = new ProcessBuilder("C:\\\\Program Files (x86)\\\\Android\\\\android-sdk\\\\platform-tools\\\\dx.bat");
-        p.directory(new File("C:\\\\Program Files (x86)\\\\Android\\\\android-sdk\\\\platform-tools"));
-        try
-        {
-            Process la = p.start();
-            
-        } 
-        catch (IOException ex) 
-        {
-            System.out.println(ex.getMessage());
-        }*/
-    }//GEN-LAST:event_jButton1MouseClicked
    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
