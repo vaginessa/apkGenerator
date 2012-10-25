@@ -448,18 +448,25 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCrearKeystoreMouseClicked
 
     private void btnCrearRMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCrearRMouseClicked
-        String androidJarPath = txtAndroidJar.getText();
+       
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String androidJarPath = txtAndroidJar.getText();
         
-        String projectHome = RutaProyecto+ApkGenerator.getFolderSeparator()+txtNombreProyecto.getText();
-        
-        JOptionPane.showMessageDialog(null, RutaProyecto+"\\"+txtNombreProyecto.getText());
-        genApk.generarR(projectHome,androidJarPath);
-        genApk.compilarCodigo(projectHome,androidJarPath,txtPaqueteProyecto.getText());
-        
-        genApk.crearDEX(projectHome);
-        genApk.crearAPKsinFirma(txtNombreProyecto.getText(), projectHome, androidJarPath);
-        genApk.firmarApk(txtNombreProyecto.getText(), projectHome, txtAlias.getText(), txtStorepass.getText(), txtKeypass.getText());
-        genApk.optimizeApk(txtNombreProyecto.getText(), projectHome);
+                String projectHome = RutaProyecto+ApkGenerator.getFolderSeparator()+txtNombreProyecto.getText();
+
+                JOptionPane.showMessageDialog(null, RutaProyecto+"\\"+txtNombreProyecto.getText());
+                genApk.generarR(projectHome,androidJarPath);
+                genApk.compilarCodigo(projectHome,androidJarPath,txtPaqueteProyecto.getText());
+
+                genApk.crearDEX(projectHome);
+                genApk.crearAPKsinFirma(txtNombreProyecto.getText(), projectHome, androidJarPath);
+                genApk.firmarApk(txtNombreProyecto.getText(), projectHome, txtAlias.getText(), txtStorepass.getText(), txtKeypass.getText());
+                genApk.optimizeApk(txtNombreProyecto.getText(), projectHome);
+            }
+        });
+        t.start();
     }//GEN-LAST:event_btnCrearRMouseClicked
 
     private void btnAndroidJarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAndroidJarMouseClicked

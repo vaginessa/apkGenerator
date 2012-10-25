@@ -96,7 +96,7 @@ public class ApkGenerator {
                              alias + " -storepass " + storepass + " -keypass " + keypass +
                              " -dname " + dname;// Check in Linux
             
-            print( executeCommand(command) );
+            executeCommand(command);
 	}
         
         public void generarR(String ProjectHome , String pathToAndroidJar)
@@ -106,7 +106,7 @@ public class ApkGenerator {
                              " -J " + getEscapedString(ProjectHome + getFolderSeparator() + "src",OS) + " -M " + getEscapedString(ProjectHome+ getFolderSeparator() +"AndroidManifest.xml",OS) +
                              " -I " + getEscapedString(pathToAndroidJar, OS); 
             
-            print( executeCommand(command) );
+            executeCommand(command);
         }
 	
         public void compilarCodigo(String ProjectHome,String pathToAndroidJar, String packageName)
@@ -124,7 +124,7 @@ public class ApkGenerator {
                              getEscapedString(ProjectHome+ getFolderSeparator() +"obj",OS)+ " " +
                              "-sourcepath " + getEscapedString(ProjectHome+ getFolderSeparator() +"src",OS) + " " +
                              ProjectHome+ getFolderSeparator() + "src" + folders + getFolderSeparator() +"*.java";
-            print( executeCommand2(command) );
+            executeCommand2(command);
         }
         
         public void crearDEX(String ProjectHome)
@@ -146,7 +146,7 @@ public class ApkGenerator {
                               " -I " + getEscapedString(pathToAndroidJar,OS) + " -F " +
                               getEscapedString( ProjectHome + getFolderSeparator() +"bin"+getFolderSeparator()+ApkName+"Unsigned.apk",OS) + " "+
                               getEscapedString(ProjectHome + getFolderSeparator() +"bin",OS);
-            print( executeCommand(command) );
+            executeCommand(command);
         }
         
         public void firmarApk(String apkName,String ProjectHome,String keyalias ,String storepass, String keypass)
@@ -158,7 +158,7 @@ public class ApkGenerator {
                              " " + getEscapedString(ProjectHome+getFolderSeparator()+"bin"+getFolderSeparator()+apkName+"Unsigned.apk", OS)+
                              " " + keyalias;
             
-            print( executeCommand2(command) );
+            executeCommand2(command);
         }
         
         public void optimizeApk(String apkName, String ProjectHome)
@@ -167,7 +167,7 @@ public class ApkGenerator {
                              " -v -f 4 " + getEscapedString(ProjectHome + getFolderSeparator() + "bin" + getFolderSeparator() + apkName +"Signed.apk", OS)+
                              " " + getEscapedString(ProjectHome + getFolderSeparator() + "bin" + getFolderSeparator() + apkName +".apk", OS);
             
-            print( executeCommand(command) );
+            executeCommand(command);
         }
         
         public static String getEscapedString(String string, OperatingSystem os)
@@ -196,10 +196,11 @@ public class ApkGenerator {
                 ProcessBuilder builder = new ProcessBuilder(command);
                 builder.redirectErrorStream(true);
                 Process process = builder.start();
+                Thread.sleep(1000); 
                 return new BufferedReader(new InputStreamReader(process.getInputStream()));
             }
-            catch (Exception e) 
-            { 
+            catch (Exception e)
+            {
                 JOptionPane.showMessageDialog(null, e.getMessage());
             }
             return null;
@@ -212,9 +213,10 @@ public class ApkGenerator {
             {
                 //JOptionPane.showMessageDialog(null, command);
                 Process process = Runtime.getRuntime().exec( command );
+                Thread.sleep(1000);
                 return new BufferedReader(new InputStreamReader(process.getInputStream()));
             }
-            catch (Exception e) 
+            catch (Exception e)
             { 
                 JOptionPane.showMessageDialog(null, e.getMessage());
             }
