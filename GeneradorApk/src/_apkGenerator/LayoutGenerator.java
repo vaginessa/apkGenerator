@@ -177,17 +177,58 @@ public class LayoutGenerator
         root.appendChild(imageView);
     }
     
+    //Messagebox cant be added in xml resources
+    
     // To Do's
-    public void generateLayoutComboBox()
+    public void generateLayoutComboBox(String imagePath, String projectPath,String idName,
+                                      int width, int height,
+                                      int x, int y, boolean visible, boolean enabled)
     {
+        Element spinner = document.createElement("Spinner");
+        spinner.setAttribute("android:id", "@+id/"+idName);
+        spinner.setAttribute("android:layout_x", x+"dp");
+        spinner.setAttribute("android:layout_y", y+"dp");
+        spinner.setAttribute("android:layout_width", ""+width+"dp");
+        spinner.setAttribute("android:layout_height", ""+height+"dp");
+        spinner.setAttribute("android:visibility", visible?"visible":"invisible");        
+        spinner.setAttribute("android:enabled", enabled?"true":"false");
+        // Entries ... or Adapter...
         
+        //spinner.setAttribute("android:entries", "");
+        root.appendChild(spinner);
     }
     
-    public void generateLayoutLayout()
+    public void generateListView(String imagePath, String projectPath,String idName,
+                                 int width, int height,
+                                 int x, int y, boolean visible, boolean enabled)
+    {
+        Element  listview = document.createElement("Spinner");
+        listview.setAttribute("android:id", "@+id/"+idName);
+        listview.setAttribute("android:layout_x", x+"dp");
+        listview.setAttribute("android:layout_y", y+"dp");
+        listview.setAttribute("android:layout_width", ""+width+"dp");
+        listview.setAttribute("android:layout_height", ""+height+"dp");
+        listview.setAttribute("android:visibility", visible?"visible":"invisible");        
+        listview.setAttribute("android:enabled", enabled?"true":"false");
+        // Entries ... or Adapter...
+        
+        //listview.setAttribute("android:entries", "");
+        root.appendChild(listview);
+    }
+    
+    public void generateLayoutLayout(String imagePath, String projectPath,String idName,
+                                     int width, int height,
+                                     int x, int y, boolean visible, boolean enabled)
     {
         Element layout = document.createElement("AbsoluteLayout");
-        // Find Attributes
         
+        layout.setAttribute("android:id", "@+id/"+idName);
+        layout.setAttribute("android:layout_x", x+"dp");
+        layout.setAttribute("android:layout_y", y+"dp");
+        layout.setAttribute("android:layout_width", ""+width+"dp");
+        layout.setAttribute("android:layout_height", ""+height+"dp");
+        layout.setAttribute("android:visibility", visible?"visible":"invisible");        
+        layout.setAttribute("android:enabled", enabled?"true":"false");
         // append all childs to layout, if any
         
         root.appendChild(layout);

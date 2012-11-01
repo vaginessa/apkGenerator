@@ -3,6 +3,7 @@ package _apkGenerator;
 
 import Semantics.Controls.*;
 import java.util.Random;
+import java.util.ArrayList;
 
 
 public class RandomControlGenerator 
@@ -136,6 +137,26 @@ public class RandomControlGenerator
         
         pic.setPath(imagePath);        
         return pic;
+    }
+    
+    public static ListBox generateListBox(String projectPath)
+    {
+        String name = "listbox";
+        ListBox listbox = new ListBox();
+        
+        listbox.setX(rand.nextInt(width)); 
+        listbox.setY(rand.nextInt(height));
+        listbox.setName(name+(correlative++));
+        listbox.setWidth(rand.nextInt(controlWidth)+ 60);
+        listbox.setHeight(rand.nextInt(controlHeight)+ 60);
+        listbox.setEnabled(rand.nextBoolean());
+        listbox.setVisible(true);
+        
+/*        String fileName="array-resource";
+        ResourceGenerator resGen = new ResourceGenerator();
+        resGen.generateStringArray(name, items, name);
+*/
+        return listbox;
     }
     
 }

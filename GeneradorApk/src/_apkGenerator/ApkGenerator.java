@@ -213,7 +213,7 @@ public class ApkGenerator {
             {
                 //JOptionPane.showMessageDialog(null, command);
                 Process process = Runtime.getRuntime().exec( command );
-                Thread.sleep(1000);
+                Thread.sleep(800);
                 return new BufferedReader(new InputStreamReader(process.getInputStream()));
             }
             catch (Exception e)
