@@ -2,6 +2,7 @@
 package _apkGenerator;
 
 import java.io.*;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.xml.parsers.*;
 import javax.xml.transform.*;
@@ -18,7 +19,7 @@ public class LayoutGenerator
     Element root = null;
     Element scrollView = null;
     Element horizontalScrollView = null;
-    int correlative;
+    static int correlative = 0;
     
     public LayoutGenerator()
     {
@@ -27,7 +28,6 @@ public class LayoutGenerator
             dbFactory = DocumentBuilderFactory.newInstance();
             docBuilder = dbFactory.newDocumentBuilder();
             document = docBuilder.newDocument();   
-            correlative = 0;
             generateLayoutRoot();
         }
         catch(Exception e)
@@ -180,7 +180,7 @@ public class LayoutGenerator
     //Messagebox cant be added in xml resources
     
     // To Do's
-    public void generateLayoutComboBox(String imagePath, String projectPath,String idName,
+    public void generateLayoutComboBox(String projectPath,String idName,
                                       int width, int height,
                                       int x, int y, boolean visible, boolean enabled)
     {
@@ -193,16 +193,29 @@ public class LayoutGenerator
         spinner.setAttribute("android:visibility", visible?"visible":"invisible");        
         spinner.setAttribute("android:enabled", enabled?"true":"false");
         // Entries ... or Adapter...
-        
-        //spinner.setAttribute("android:entries", "");
+
+        String fileName="combobox_array_resource"+correlative+".xml";
+        String path = projectPath + ApkGenerator.getFolderSeparator() +
+                      "res" + ApkGenerator.getFolderSeparator() + 
+                      "values" + ApkGenerator.getFolderSeparator() +
+                      fileName;
+        ResourceGenerator resGen = new ResourceGenerator();
+        ArrayList<String> items = new ArrayList<String>();
+        items.add("ja");
+        items.add("yu");
+        items.add("la");        
+        String arrayName = idName + "Entries";
+        resGen.generateStringArray( path , items, arrayName);
+        spinner.setAttribute("android:entries", "@array/"+arrayName);
+
         root.appendChild(spinner);
     }
     
-    public void generateListView(String imagePath, String projectPath,String idName,
+    public void generateListView(String projectPath,String idName,
                                  int width, int height,
                                  int x, int y, boolean visible, boolean enabled)
     {
-        Element  listview = document.createElement("Spinner");
+        Element  listview = document.createElement("ListView");
         listview.setAttribute("android:id", "@+id/"+idName);
         listview.setAttribute("android:layout_x", x+"dp");
         listview.setAttribute("android:layout_y", y+"dp");
@@ -212,13 +225,26 @@ public class LayoutGenerator
         listview.setAttribute("android:enabled", enabled?"true":"false");
         // Entries ... or Adapter...
         
-        //listview.setAttribute("android:entries", "");
+        String fileName="listview_array_resource"+correlative+".xml";
+        String path = projectPath + ApkGenerator.getFolderSeparator() +
+                      "res" + ApkGenerator.getFolderSeparator() + 
+                      "values" + ApkGenerator.getFolderSeparator() +
+                      fileName;
+        ResourceGenerator resGen = new ResourceGenerator();
+        ArrayList<String> items = new ArrayList<String>();
+        items.add("ja");
+        items.add("yu");
+        items.add("la");        
+        String arrayName = idName + "Entries";
+        resGen.generateStringArray( path , items, arrayName);
+        listview.setAttribute("android:entries", "@array/"+arrayName);
+        
         root.appendChild(listview);
     }
     
     public void generateLayoutLayout(String imagePath, String projectPath,String idName,
                                      int width, int height,
-                                     int x, int y, boolean visible, boolean enabled)
+                                     int x, int y, boolean visible, boolean enabled, ArrayList<Element> elements)
     {
         Element layout = document.createElement("AbsoluteLayout");
         
@@ -230,6 +256,13 @@ public class LayoutGenerator
         layout.setAttribute("android:visibility", visible?"visible":"invisible");        
         layout.setAttribute("android:enabled", enabled?"true":"false");
         // append all childs to layout, if any
+        if( elements != null)
+        {
+            for( Element element : elements)
+            {
+                layout.appendChild(element);
+            }
+        }
         
         root.appendChild(layout);
     }

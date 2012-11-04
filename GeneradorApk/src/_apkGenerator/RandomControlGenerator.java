@@ -2,8 +2,8 @@
 package _apkGenerator;
 
 import Semantics.Controls.*;
-import java.util.Random;
 import java.util.ArrayList;
+import java.util.Random;
 
 
 public class RandomControlGenerator 
@@ -142,21 +142,54 @@ public class RandomControlGenerator
     public static ListBox generateListBox(String projectPath)
     {
         String name = "listbox";
+        String idName = name+(correlative++);
         ListBox listbox = new ListBox();
         
         listbox.setX(rand.nextInt(width)); 
         listbox.setY(rand.nextInt(height));
-        listbox.setName(name+(correlative++));
-        listbox.setWidth(rand.nextInt(controlWidth)+ 60);
-        listbox.setHeight(rand.nextInt(controlHeight)+ 60);
+        listbox.setName(idName);
+        listbox.setWidth(rand.nextInt(controlWidth)+ 150);
+        listbox.setHeight(rand.nextInt(controlHeight)+ 260);
         listbox.setEnabled(rand.nextBoolean());
         listbox.setVisible(true);
         
-/*        String fileName="array-resource";
-        ResourceGenerator resGen = new ResourceGenerator();
-        resGen.generateStringArray(name, items, name);
-*/
+        ArrayList<ListBoxItem> items = getRandomItems();
+        listbox.setItems(items);
+        
         return listbox;
     }
     
+    public static ComboBox generateComboBox()
+    {
+        String name = "combobox";
+        ComboBox combobox = new ComboBox();
+        
+        combobox.setX(rand.nextInt(width)); 
+        combobox.setY(rand.nextInt(height));
+        combobox.setName(name+(correlative++));
+        combobox.setWidth(rand.nextInt(controlWidth)+ 60);
+        combobox.setHeight(rand.nextInt(controlHeight)+ 60);
+        combobox.setEnabled(rand.nextBoolean());
+        combobox.setVisible(true);
+        
+        ArrayList<ListBoxItem> items = getRandomItems();
+        combobox.setItems(items);
+        
+        return combobox;
+    }
+    
+    private static ArrayList<ListBoxItem> getRandomItems()
+    {
+        ArrayList<ListBoxItem> items = new ArrayList<ListBoxItem>();
+        ListBoxItem item = new ListBoxItem();
+        item.setText("jaja");
+        item.setValue("jaja");
+        item.setText("why");
+        item.setValue("why");
+        item.setText("lala");
+        item.setValue("lala");
+        items.add(item);
+        
+        return items;
+    }
 }

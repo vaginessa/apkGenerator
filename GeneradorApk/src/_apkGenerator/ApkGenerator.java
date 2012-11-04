@@ -196,7 +196,11 @@ public class ApkGenerator {
                 ProcessBuilder builder = new ProcessBuilder(command);
                 builder.redirectErrorStream(true);
                 Process process = builder.start();
-                Thread.sleep(1000); 
+                int value = process.exitValue();
+                if( value != 0)
+                {
+                    throw new Exception("WTF?");
+                }
                 return new BufferedReader(new InputStreamReader(process.getInputStream()));
             }
             catch (Exception e)
@@ -208,12 +212,17 @@ public class ApkGenerator {
 
         public BufferedReader executeCommand2(String command)
 	{
-            // For Java
+            // For Java Commands
             try 
             {
                 //JOptionPane.showMessageDialog(null, command);
                 Process process = Runtime.getRuntime().exec( command );
-                Thread.sleep(800);
+                int value = process.exitValue();
+                if( value != 0)
+                {
+                    throw new Exception("WTF?");
+                }
+
                 return new BufferedReader(new InputStreamReader(process.getInputStream()));
             }
             catch (Exception e)

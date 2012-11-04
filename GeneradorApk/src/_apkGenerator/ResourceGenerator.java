@@ -3,16 +3,16 @@ package _apkGenerator;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.StringWriter;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import org.w3c.dom.*;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import org.w3c.dom.*;
 
 public class ResourceGenerator 
 {
@@ -38,8 +38,8 @@ public class ResourceGenerator
         document = docBuilder.newDocument();
         Element root = document.createElement("resources");
         Element stringArray = document.createElement("string-array");
-        
-        Element itemElement = null;
+        stringArray.setAttribute("name", arrayName);
+        Element itemElement;
         
         for( String item : stringList )
         {
